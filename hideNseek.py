@@ -18,12 +18,14 @@ class img():
     def getImg(self) -> str:
         """return the path of the file selected in file explorer interface"""
         root = tk.Tk()
+        root.attributes('-topmost', True)
         root.withdraw()
 
         filepath = filedialog.askopenfilename(
             title="Select an image",
             filetypes= [("Image files","*.png *.jpg *.jpeg")])
 
+        root.destroy()
         if filepath:
             print("File selected successfully.")
 

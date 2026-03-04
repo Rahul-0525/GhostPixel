@@ -35,23 +35,24 @@ def main_menu():
             
         elif choice == '2':
             print("\n[!] Starting Decryption Sequence...\n\n")
-            print("Select the image.")
+            print("Select the image.\n")
             
             storedIn = retrieveMsg()
             retrievedmsg = storedIn.getEncMsg()
             print("Message retrieved successfully from the image.\n")
 
             decrmsg = decryptMsg(retrievedmsg)
-            print("\nMessage decrypted successfully.")
-
+            
             msg = decrmsg.getDecrMsg()
-            print("\n\nSecured Note Retrieved:",msg)
+            print("\nSecured Note Retrieved:",msg)
 
 
             input("\nPress Enter to return to menu...")
             
         elif choice == '3':
+
             print("\nShutting down GhostPixel. Stay safe.")
+            time.sleep(5)
             break
             
         else:

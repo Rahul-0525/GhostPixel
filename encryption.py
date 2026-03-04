@@ -82,19 +82,25 @@ class decryptMsg(security):
         extracts the salt, nonce and ciphertext from the str extracted from the image and set up the key for decryption
         
         and call decrypt function"""
+        try:
+            elementlst = extracted.split("001as")
+            salt_b64str = elementlst[0]
+            nonce_b64str = elementlst[1]
+            ciphertext_b64str = elementlst[2]
 
-        elementlst = extracted.split("001as")
-        salt_b64str = elementlst[0]
-        nonce_b64str = elementlst[1]
-        ciphertext_b64str = elementlst[2]
+            self.salt = base64.b64decode(salt_b64str)
+            self.nonce = base64.b64decode(nonce_b64str)
+            self.ciphertext = base64.b64decode(ciphertext_b64str)
+            self.masterPwd = self.setMasterPwd()
+            self.key = self.generateKey(self.masterPwd,self.salt)
 
-        self.salt = base64.b64decode(salt_b64str)
-        self.nonce = base64.b64decode(nonce_b64str)
-        self.ciphertext = base64.b64decode(ciphertext_b64str)
-        self.masterPwd = self.setMasterPwd()
-        self.key = self.generateKey(self.masterPwd,self.salt)
+            self.decryptedmsg = self.decrypt()
+            print("\nMessage decrypted successfully.")
 
-        self.decryptedmsg = self.decrypt()
+        except IndexError:
+            print("Invalid Image: Can't find any stored information.")
+
+
 
     def decrypt(self) -> str:
         """
@@ -110,4 +116,9 @@ class decryptMsg(security):
     
     def getDecrMsg(self) -> str:
         """returns the decrypted message"""
-        return self.decryptedmsg
+        try :
+            return self.decryptedmsg
+    
+        except AttributeError:
+            return "Invalid Image: Can't find any stored information."
+
