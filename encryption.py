@@ -20,7 +20,7 @@ class security():
         return salt
 
     def setMasterPwd(self) -> str:
-        """ask user for master password as input and return the str"""
+        """ask user for master password as input and return the byte encoded str"""
         master = input("Enter the Master Password: ")   
         return master.encode('utf-8')   
 
@@ -41,15 +41,17 @@ class security():
 
 class encryptMsg(security):
 
-    def __init__(self, msg:str) -> None:
+    def __init__(self, msg:str) -> str:
         """
         argument: message to encrypt
 
-        sets up the key using salt and master password for encryption"""
+        sets up the key using salt and master password for encryption
+        and call encrypt function to encrypt the message in one go"""
         self.msg = msg
         self.masterPwd = self.setMasterPwd()
         self.salt = self.generateSalt()
         self.key = self.generateKey(self.masterPwd,self.salt)
+        self.encryptedmsg = self.encrypt()
 
     def encrypt(self) -> str:
         """
@@ -68,13 +70,18 @@ class encryptMsg(security):
         nonce_b64str = base64.b64encode(nonce).decode('utf-8')
         return "001as".join([salt_b64str, nonce_b64str, ciphertext_b64str])
     
+    def getEncMsg(self) -> str:
+        """returns the encrypted message"""
+        return self.encryptedmsg
 
 class decryptMsg(security):
 
-    def __init__(self, extracted:str):
+    def __init__(self, extracted:str) -> str:
         """
-        argument: msg to decrypt
-        extracts the salt, nonce and ciphertext from the str extracted from the image and set up the key for decryption"""
+        argument: encrypted msg 
+        extracts the salt, nonce and ciphertext from the str extracted from the image and set up the key for decryption
+        
+        and call decrypt function"""
 
         elementlst = extracted.split("001as")
         salt_b64str = elementlst[0]
@@ -87,6 +94,8 @@ class decryptMsg(security):
         self.masterPwd = self.setMasterPwd()
         self.key = self.generateKey(self.masterPwd,self.salt)
 
+        self.decryptedmsg = self.decrypt()
+
     def decrypt(self) -> str:
         """
         argument: nothing
@@ -98,15 +107,17 @@ class decryptMsg(security):
         msg = decrypted_msg.decode('utf-8')
 
         return msg
+    
+    def getDecrMsg(self) -> str:
+        """returns the decrypted message"""
+        return self.decryptedmsg
 
 
-# message = encryptMsg("hello is it working")
-# encmsg = message.encrypt()
-# print(encmsg)
+encmsg = encryptMsg("hello is it working")
+print(encmsg.getEncMsg())
 
-# todecmsg = decryptMsg(encmsg)
-# messageretrieved = todecmsg.decrypt()
-# print(messageretrieved)
+decmsg = decryptMsg(encmsg.getEncMsg())
+print(decmsg.getDecrMsg())
 
 
         
