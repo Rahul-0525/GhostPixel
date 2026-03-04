@@ -132,8 +132,7 @@ def retrieveMsg(mainlist:list) -> str:
 
 # from PIL import Image as img
 
-# hand = img.open(r"C:\Users\rahul\Downloads\Photos\hand.jpeg")
-
+# hand = img.open(r"C:\Users\rahul\Downloads\Photos\castle_palace_manor_124492_2560x1440.jpg")
 
 # pixel = list(hand.getdata()) #getting all pixels as list of tuple of rgb
 
@@ -145,7 +144,7 @@ def retrieveMsg(mainlist:list) -> str:
 # pixel[:tplchanging] = mainlist #replacing the actual typle with the tuple with hidden msg 
 
 # hand.putdata(pixel)
-# hand.save("done.png")
+# hand.save("done2.png")
 
 
 # so the above code take the message and save the msg in the image and save the image as done.png
@@ -154,7 +153,7 @@ def retrieveMsg(mainlist:list) -> str:
 #officially now have the msg in it and can be recieved by the code below
 from PIL import Image
 
-hand = Image.open(r"R:\Rahul\Google drive 2\CodeWorkspace\Projects\imgsecret\done.png")
+hand = Image.open(r"R:\Rahul\Google drive 2\CodeWorkspace\Projects\imgsecret\done2.png")
 pixel = hand.getdata()
 print(retrieveMsg(pixel))
 
